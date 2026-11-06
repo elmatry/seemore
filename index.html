@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seemore - سيمور | توريل المنصورة</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#FFF9F0;color:#222}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.logo{font-size:28px;font-weight:900}.logo b{color:#FF4D00}.logo small{display:block;font-size:11px;color:#888;font-weight:400}
+.nav{display:flex;gap:14px;font-size:14px;font-weight:700}.nav a{text-decoration:none;color:#222}
+.cart-btn{background:#111;color:#fff;border:none;padding:10px 16px;border-radius:30px;font-weight:800;cursor:pointer}
+.cart-btn span{background:#FF4D00;padding:2px 8px;border-radius:50%}
+.slider{position:relative;height:400px;overflow:hidden}
+.slide{position:absolute;inset:0;opacity:0;transition:1s}
+.slide.active{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover}
+.slide-text{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;padding:50px 20px 22px}
+.slide-text h1{font-size:34px;line-height:1.1}
+.btn{padding:13px 22px;border-radius:30px;font-weight:900;border:none;cursor:pointer}
+.btn-orange{background:#FF4D00;color:#fff}.btn-white{background:#fff;color:#111;border:2px solid #111}
+.strip{background:#FF4D00;color:#fff;text-align:center;padding:12px;font-weight:900;font-size:14px}
+section{padding:28px 16px}
+h2{font-size:28px;text-align:center}.sub{text-align:center;color:#888;margin:8px 0 18px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;background:#fff;border-radius:20px;overflow:hidden}
+.about img{width:100%;height:320px;object-fit:cover}
+.about-text{padding:20px}.about-text h3{font-size:24px;margin-bottom:10px}.about-text p{line-height:1.8;color:#555}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;text-align:center}
+.stat{background:#FFF9F0;padding:14px;border-radius:14px}.stat b{font-size:22px;color:#FF4D00;display:block}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.tab{padding:10px 18px;border-radius:30px;border:2px solid #111;background:#fff;font-weight:800;cursor:pointer}
+.tab.active{background:#111;color:#fff}
+.cat-title{text-align:right;font-size:21px;margin:22px 0 12px;border-right:5px solid #FF4D00;padding-right:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:right}
+.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.07)}
+.card img{width:100%;height:170px;object-fit:cover;background:#eee}
+.card-body{padding:12px}.card-body h3{font-size:16px}.card-body p{font-size:13px;color:#888;margin:5px 0 10px;min-height:34px}
+.badge{display:inline-block;background:#FFE8D6;color:#FF4D00;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;margin-bottom:6px}
+.row{display:flex;justify-content:space-between;align-items:center}.price{font-weight:900}
+.add{background:#FF4D00;color:#fff;border:none;width:38px;height:38px;border-radius:50%;font-size:22px;cursor:pointer}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gallery img{width:100%;height:130px;object-fit:cover;border-radius:14px}
+.reviews{display:grid;grid-template-columns:1fr 1fr;gap:12px}.review{background:#fff;padding:16px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.05)}.review b{color:#FF4D00}
+.info-box{background:#111;color:#fff;border-radius:20px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px}.info-box h3{margin-bottom:10px;color:#FFD93D}.info-box p{line-height:1.9;color:#ddd}
+.faq-item{background:#fff;padding:14px;border-radius:14px;margin-bottom:10px;cursor:pointer}
+.socials{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}.socials a{background:#fff;padding:12px 18px;border-radius:30px;font-weight:800;box-shadow:0 4px 12px rgba(0,0,0,.06);text-decoration:none;color:#222}
+.cart-drawer{position:fixed;top:0;left:0;bottom:0;width:340px;max-width:92%;background:#fff;z-index:100;transform:translateX(-100%);transition:.3s;padding:20px;display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;display:none}.overlay.show{display:block}
+.cart-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:12px 20px;border-radius:30px;z-index:120;display:none}
+footer{background:#111;color:#fff;text-align:center;padding:26px 16px}
+@media(max-width:700px){.nav{display:none}.about,.info-box,.reviews{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.slide-text h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header><div class="logo">SEE<b>MORE</b><small>SEEMORE • TOREIL - MANSOURA</small></div><div class="nav"><a href="#about">عنا</a><a href="#menu">المنيو</a><a href="#gallery">الصور</a><a href="#reviews">آراء الناس</a><a href="#visit">زورنا</a></div><button class="cart-btn" onclick="toggleCart(true)">🛒 السلة <span id="cartCount">0</span></button></header>
+
+<div class="slider" id="slider">
+<div class="slide active"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1000"><div class="slide-text"><h1>SEEMORE<br>أشيك كافيه في المنصورة ✨</h1><p>توريل، المنصورة - افتحنا أكتوبر 2026</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-orange" onclick="scrollToMenu()">اطلب دلوقتي 🛵</button><button class="btn btn-white" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">اعرف قصتنا</button></div></div></div>
+<div class="slide"><img src="https://images.unsplash.com/photo-1522992319-0365e5f11656?w=1000"><div class="slide-text"><h1>آيس بوبا كوفي 🧋</h1><p>الأكثر طلباً في سيمور</p><button class="btn btn-orange" onclick="addToCart('آيس بوبا كوفي',135)">اطلبه بـ 135 ج +</button></div></div>
+<div class="slide"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=1000"><div class="slide-text"><h1>بلو بيري فلاور موس 🫐</h1><p>الحلو اللي الكل بيتصور معاه</p><button class="btn btn-orange" onclick="addToCart('بلو بيري فلاور موس',145)">اطلبه بـ 145 ج +</button></div></div>
+<div class="slide"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1000"><div class="slide-text"><h1>مكانك الجديد للخروجات 📸</h1><p>ديكور أزرق، إضاءة حلوة، وكل ركن يتصور</p><button class="btn btn-white" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">شوف الصور</button></div></div>
+<div class="dots" id="dots" style="position:absolute;bottom:14px;right:20px;display:flex;gap:6px;z-index:5"></div>
+</div>
+<div class="strip">🔥 افتتاح جديد - توريل المنصورة | مفتوح يومياً 9 ص - 12 م | تابعنا @seemore.eg</div>
+
+<section id="about">
+<h2>قصة سيمور 💙</h2>
+<p class="sub">مش مجرد كافيه، ده مكان معمول بحب</p>
+<div class="about">
+<img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800">
+<div class="about-text">
+<h3>من توريل، لكل المنصورة</h3>
+<p>سيمور فتح في <b>أكتوبر 2026</b> في منطقة توريل في المنصورة، وبقى من أول يوم أشيك مكان في المنصورة. واجهة زرقاء مميزة، ديكور خشبي دافي، إضاءة تشرح القلب، وكل ركن فيه معمول عشان تتصور فيه.</p>
+<p>الفكرة: مكان تشوف فيه أكتر - <b>See More</b> - تشوف ماتشا مظبوطة، قهوة مختصة بجد، وحلويات شكلها أحلى من طعمها.</p>
+<div class="stats">
+<div class="stat"><b>2026</b><span>سنة الافتتاح</span></div>
+<div class="stat"><b>22+</b><span>صنف في المنيو</span></div>
+<div class="stat"><b>4.9 ⭐</b><span>تقييم الناس</span></div>
+<div class="stat"><b>توريل</b><span>المنصورة</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="menu">
+<h2>منيو سيمور الكامل ☕</h2>
+<p class="sub">كل حاجة في سيمور - دوس + عشان تطلب</p>
+<div class="tabs">
+<button class="tab active" onclick="filterMenu('all',this)">الكل</button>
+<button class="tab" onclick="filterMenu('matcha',this)">🍵 ماتشا</button>
+<button class="tab" onclick="filterMenu('coffee',this)">☕ قهوة</button>
+<button class="tab" onclick="filterMenu('cold',this)">🧋 بارد</button>
+<button class="tab" onclick="filterMenu('dessert',this)">🍰 حلويات</button>
+<button class="tab" onclick="filterMenu('food',this)">🥪 أكل</button>
+</div>
+
+<h3 class="cat-title">🍵 ماتشا</h3>
+<div class="grid">
+<div class="card matcha"><img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=700"><div class="card-body"><span class="badge">سيجنتشر 🔥</span><h3>بينك ماتشا لاتيه</h3><p>ماتشا + حليب + فوم وردي</p><div class="row"><span class="price">145 ج</span><button class="add" onclick="addToCart('بينك ماتشا لاتيه',145)">+</button></div></div></div>
+<!-- آيس ماتشا لاتيه - صورة مظبوطة جديدة -->
+<div class="card matcha"><img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=700"><div class="card-body"><h3>آيس ماتشا لاتيه</h3><p>ماتشا كلاسيك ساقعة مع حليب وتلج</p><div class="row"><span class="price">120 ج</span><button class="add" onclick="addToCart('آيس ماتشا لاتيه',120)">+</button></div></div></div>
+<div class="card matcha"><img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=700"><div class="card-body"><h3>هوت ماتشا لاتيه</h3><p>ماتشا سخنة بحليب كريمي</p><div class="row"><span class="price">115 ج</span><button class="add" onclick="addToCart('هوت ماتشا لاتيه',115)">+</button></div></div></div>
+<!-- ماتشا بستاشيو - صورة مظبوطة جديدة -->
+<div class="card matcha"><img src="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=700"><div class="card-body"><h3>ماتشا بستاشيو</h3><p>ماتشا + صوص فستق - فستق حقيقي</p><div class="row"><span class="price">155 ج</span><button class="add" onclick="addToCart('ماتشا بستاشيو',155)">+</button></div></div></div>
+</div>
+
+<h3 class="cat-title">☕ قهوة مختصة</h3>
+<div class="grid">
+<div class="card coffee"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700"><div class="card-body"><span class="badge">الأكثر طلباً</span><h3>اسبانيش لاتيه</h3><p>اسبريسو + حليب مكثف</p><div class="row"><span class="price">110 ج</span><button class="add" onclick="addToCart('اسبانيش لاتيه',110)">+</button></div></div></div>
+<div class="card coffee"><img src="https://images.unsplash.com/photo-1522992319-0365e5f11656?w=700"><div class="card-body"><h3>آيس بوبا كوفي</h3><p>اسبريسو ساقع + حليب + بوبا</p><div class="row"><span class="price">135 ج</span><button class="add" onclick="addToCart('آيس بوبا كوفي',135)">+</button></div></div></div>
+<div class="card coffee"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700"><div class="card-body"><h3>V60 - قهوة مقطرة</h3><p>Pour Over - قهوة مختصة</p><div class="row"><span class="price">130 ج</span><button class="add" onclick="addToCart('V60 قهوة مقطرة',130)">+</button></div></div></div>
+<div class="card coffee"><img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=700"><div class="card-body"><h3>أفوجاتو</h3><p>اسبريسو على آيس كريم فانيليا</p><div class="row"><span class="price">125 ج</span><button class="add" onclick="addToCart('أفوجاتو',125)">+</button></div></div></div>
+<div class="card coffee"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=700"><div class="card-body"><h3>كابتشينو</h3><p>اسبريسو + فوم حليب</p><div class="row"><span class="price">95 ج</span><button class="add" onclick="addToCart('كابتشينو',95)">+</button></div></div></div>
+<div class="card coffee"><img src="https://images.unsplash.com/photo-1504630083234-14187a9df0f5?w=700"><div class="card-body"><h3>لاتيه كلاسيك</h3><p>اسبريسو + حليب - لاتيه آرت</p><div class="row"><span class="price">90 ج</span><button class="add" onclick="addToCart('لاتيه كلاسيك',90)">+</button></div></div></div>
+</div>
+
+<h3 class="cat-title">🧋 مشروبات باردة</h3>
+<div class="grid">
+<div class="card cold"><img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=700"><div class="card-body"><h3>مانجو باشن فروت</h3><p>مانجو + باشن فروت منعش</p><div class="row"><span class="price">130 ج</span><button class="add" onclick="addToCart('مانجو باشن فروت',130)">+</button></div></div></div>
+<!-- آيس لاتيه - صورة مظبوطة جديدة -->
+<div class="card cold"><img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=700"><div class="card-body"><h3>آيس لاتيه</h3><p>اسبريسو ساقع + حليب + تلج</p><div class="row"><span class="price">95 ج</span><button class="add" onclick="addToCart('آيس لاتيه',95)">+</button></div></div></div>
+</div>
+
+<h3 class="cat-title">🍰 حلويات</h3>
+<div class="grid">
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=700"><div class="card-body"><span class="badge">بيتصور كتير 📸</span><h3>بلو بيري فلاور موس</h3><p>موس توت على شكل وردة</p><div class="row"><span class="price">145 ج</span><button class="add" onclick="addToCart('بلو بيري فلاور موس',145)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=700"><div class="card-body"><h3>كيك مانجو</h3><p>كيك على شكل مانجو</p><div class="row"><span class="price">140 ج</span><button class="add" onclick="addToCart('كيك مانجو',140)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=700"><div class="card-body"><h3>تيراميسو</h3><p>تيراميسو كلاسيك بالقهوة</p><div class="row"><span class="price">130 ج</span><button class="add" onclick="addToCart('تيراميسو',130)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1562777717-dc6984f65a63?w=700"><div class="card-body"><h3>كيك وردة</h3><p>كيك وردة بينك</p><div class="row"><span class="price">135 ج</span><button class="add" onclick="addToCart('كيك وردة',135)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=700"><div class="card-body"><h3>كرواسون زبدة</h3><p>هش وطازة كل يوم</p><div class="row"><span class="price">75 ج</span><button class="add" onclick="addToCart('كرواسون زبدة',75)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=700"><div class="card-body"><h3>دانش توت ومانجو</h3><p>دانش بالفواكه الطازة</p><div class="row"><span class="price">85 ج</span><button class="add" onclick="addToCart('دانش توت ومانجو',85)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=700"><div class="card-body"><h3>وافل نوتيلا</h3><p>وافل سخن + نوتيلا + موز</p><div class="row"><span class="price">130 ج</span><button class="add" onclick="addToCart('وافل نوتيلا',130)">+</button></div></div></div>
+<div class="card dessert"><img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=700"><div class="card-body"><h3>وافل لوتس</h3><p>وافل + كريمة لوتس</p><div class="row"><span class="price">150 ج</span><button class="add" onclick="addToCart('وافل لوتس',150)">+</button></div></div></div>
+</div>
+
+<h3 class="cat-title">🥪 أكل</h3>
+<div class="grid">
+<div class="card food"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=700"><div class="card-body"><h3>ساندوتش سيمور</h3><p>ساندوتش طازة</p><div class="row"><span class="price">120 ج</span><button class="add" onclick="addToCart('ساندوتش سيمور',120)">+</button></div></div></div>
+<div class="card food"><img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=700"><div class="card-body"><h3>بيجل ساندوتش</h3><p>بيجل + جبنة + خضار</p><div class="row"><span class="price">110 ج</span><button class="add" onclick="addToCart('بيجل ساندوتش',110)">+</button></div></div></div>
+</div>
+</section>
+
+<section id="gallery">
+<h2>سيمور من جوه 📸</h2>
+<p class="sub">الواجهة الزرقاء، الديكور الخشبي، وكل ركن يتصور</p>
+<div class="gallery">
+<img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600">
+<img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600">
+<img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=600">
+<img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600">
+<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600">
+<img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600">
+</div>
+</section>
+
+<section id="reviews">
+<h2>الناس بتقول إيه عن سيمور؟ 💬</h2>
+<p class="sub">من فيديوهات وريفيوهات الزوار الحقيقيين</p>
+<div class="reviews">
+<div class="review"><p>⭐⭐⭐⭐⭐</p><p>"أشيك كافيه في المنصورة، الديكور تحفة والماتشا مظبوطة أوي"</p><b>- زائرة من توريل</b></div>
+<div class="review"><p>⭐⭐⭐⭐⭐</p><p>"البلو بيري موس شكله يجنن وطعمه أحلى، لازم تجربوه"</p><b>- بلوجر المنصورة</b></div>
+<div class="review"><p>⭐⭐⭐⭐⭐</p><p>"المكان هادي ورايق، أحلى مكان للمذاكرة والخروجات"</p><b>- طالب في المنصورة</b></div>
+<div class="review"><p>⭐⭐⭐⭐⭐</p><p>"أحلى مكان تتصور فيه في المنصورة، كل ركن لوحة"</p><b>- زائرة من نيو المنصورة</b></div>
+</div>
+</section>
+
+<section id="visit">
+<div class="info-box">
+<div><h3>📍 العنوان والمواعيد</h3><p><b>العنوان:</b> توريل، المنصورة، الدقهلية<br><b>المواعيد:</b> يومياً من 9 صباحاً لـ 12 منتصف الليل<br><b>التوصيل:</b> داخل المنصورة - 30 دقيقة<br><b>الدفع:</b> كاش - انستا باي - فودافون كاش</p><button class="btn btn-orange" style="margin-top:12px" onclick="window.open('https://maps.google.com/?q=Seemore+Toreil+Mansoura','_blank')">افتح اللوكيشن 📍</button></div>
+<div><h3>📱 تابع سيمور</h3><p><b>انستجرام:</b> @seemore.eg<br><b>تيك توك:</b> @seemore.eg<br><b>فيسبوك:</b> Seemore Mansoura<br><b>واتساب:</b> اطلب من الموقع</p><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn btn-white" onclick="window.open('https://instagram.com/seemore.eg','_blank')">انستجرام 📸</button><button class="btn btn-orange" onclick="toggleCart(true)">اطلب واتساب 📲</button></div></div>
+</div>
+<h2 style="margin-top:28px">أسئلة شائعة ❓</h2>
+<div style="margin-top:14px">
+<div class="faq-item" onclick="this.querySelector('p').style.display=this.querySelector('p').style.display==='none'?'block':'none'"><b>فين مكان سيمور بالظبط؟ 📍</b><p style="display:none;color:#666;margin-top:6px">في توريل، المنصورة - الواجهة الزرقاء المميزة.</p></div>
+<div class="faq-item" onclick="this.querySelector('p').style.display=this.querySelector('p').style.display==='none'?'block':'none'"><b>هل فيه مكان للمذاكرة؟ 📚</b><p style="display:none;color:#666;margin-top:6px">آه، المكان هادي وفيه أماكن مريحة وواي فاي سريع.</p></div>
+<div class="faq-item" onclick="this.querySelector('p').style.display=this.querySelector('p').style.display==='none'?'block':'none'"><b>بتعملوا أعياد ميلاد؟ 🎂</b><p style="display:none;color:#666;margin-top:6px">آه، كلمونا على انستجرام ونظبطلكم أحلى ديكور.</p></div>
+<div class="faq-item" onclick="this.querySelector('p').style.display=this.querySelector('p').style.display==='none'?'block':'none'"><b>فيه توصيل؟ 🛵</b><p style="display:none;color:#666;margin-top:6px">آه، توصيل داخل المنصورة في 30 دقيقة.</p></div>
+</div>
+<div class="socials"><a href="https://instagram.com/seemore.eg" target="_blank">📸 انستجرام</a><a href="#" onclick="toggleCart(true)">🛵 اطلب دليفري</a><a href="https://maps.google.com/?q=Seemore+Toreil+Mansoura" target="_blank">📍 اللوكيشن</a></div>
+</section>
+
+<footer><h3>SEEMORE - سيمور 💙</h3><p style="margin:10px 0;color:#aaa">توريل، المنصورة | Made with ❤️ in Mansoura | © 2026 Seemore Cafe</p><p>تابعنا: @seemore.eg</p></footer>
+
+<div class="overlay" id="overlay" onclick="toggleCart(false)"></div>
+<div class="cart-drawer" id="cartDrawer"><h3>سلة الطلبات 🛒</h3><div id="cartItems" style="flex:1;overflow:auto;margin:16px 0"><p style="color:#888">السلة فاضية</p></div><p style="font-weight:900;font-size:18px">الإجمالي: <span id="total">0</span> ج</p><button class="btn btn-orange" style="width:100%;margin-top:12px" onclick="checkout()">اطلب واتساب 📲</button><button class="btn btn-white" style="width:100%;margin-top:8px" onclick="toggleCart(false)">كمل تصفح</button></div>
+<div class="toast" id="toast">تمت الإضافة ✅</div>
+
+<script>
+let cart=[];let currentSlide=0;const slides=document.querySelectorAll('.slide');const dotsBox=document.getElementById('dots');
+slides.forEach((_,i)=>{let d=document.createElement('div');d.style.cssText='width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.6);cursor:pointer';d.onclick=()=>showSlide(i);dotsBox.appendChild(d);});
+function showSlide(i){slides.forEach(s=>s.classList.remove('active'));document.querySelectorAll('#dots div').forEach(d=>d.style.background='rgba(255,255,255,.6)');currentSlide=i;slides[i].classList.add('active');dotsBox.children[i].style.background='#FF4D00';}
+setInterval(()=>{showSlide((currentSlide+1)%slides.length)},4000);
+function scrollToMenu(){document.getElementById('menu').scrollIntoView({behavior:'smooth'})}
+function filterMenu(type,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.card').forEach(c=>{c.style.display=(type==='all'||c.classList.contains(type))?'block':'none';});document.querySelectorAll('.cat-title').forEach(t=>{t.style.display=type==='all'?'block':'none';});}
+function addToCart(name,price){cart.push({name,price});updateCart();let t=document.getElementById('toast');t.textContent=name+' اتضاف ✅';t.style.display='block';setTimeout(()=>t.style.display='none',1500);}
+function updateCart(){document.getElementById('cartCount').textContent=cart.length;let box=document.getElementById('cartItems');let total=0;if(cart.length===0)box.innerHTML='<p style="color:#888">السلة فاضية</p>';else box.innerHTML=cart.map((it,i)=>{total+=it.price;return `<div class="cart-item"><span>${it.name}</span><b>${it.price} ج <button onclick="removeItem(${i})" style="border:none;background:none;cursor:pointer">❌</button></b></div>`}).join('');document.getElementById('total').textContent=total;}
+function removeItem(i){cart.splice(i,1);updateCart();}
+function toggleCart(open){document.getElementById('cartDrawer').classList.toggle('open',open);document.getElementById('overlay').classList.toggle('show',open);}
+function checkout(){if(cart.length===0){alert('السلة فاضية!');return;}let msg='أهلا سيمور، عايز أطلب:\n'+cart.map(c=>'- '+c.name+' : '+c.price+'ج').join('\n')+'\nالإجمالي: '+document.getElementById('total').textContent+'ج';window.open('https://wa.me/201000000000?text='+encodeURIComponent(msg),'_blank');}
+</script>
+</body>
+</html>
